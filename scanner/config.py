@@ -1,1 +1,3 @@
 DATA_FILEPATH = "scanner/data/data.txt"
+ZERO_TILT_DEGREES = 142
+ZERO_PAN_DEGREES = 162

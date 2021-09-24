@@ -1,6 +1,7 @@
 import serial
+import math
 
-from config import DATA_FILEPATH
+from config import DATA_FILEPATH, ZERO_TILT_DEGREES, ZERO_PAN_DEGREES
 
 arduinoComPort = "/dev/ttyACM0"
 
@@ -20,13 +21,27 @@ def run():
             with open(DATA_FILEPATH, "a") as f:
                 f.write(coords)
 
+def convert_raw_reading(raw_reading):
+    return 174-0.568*raw_reading + 5.24e-4 * raw_reading**2
 
-def calc_coords(distance, pan, tilt):
+def calibrate_pan_tilt(pan, tilt):
+    pan = ZERO_PAN_DEGREES-pan
+    tilt = ZERO_TILT_DEGREES-tilt
+    return pan, tilt
+
+def calc_coords(raw_reading, pan, tilt):
     """
     Returns string in format X,Y,Z
     """
-    # TODO
-    return str(distance) + "," + str(pan) + "," + str(tilt) + "\n"
+    distance = convert_raw_reading(raw_reading)
+    pan, tilt = calibrate_pan_tilt(pan, tilt)
+    z = math.cos(math.radians(tilt)) * distance
+    r = math.sin(math.radians(tilt)) * distance
+    y = math.sin(math.radians(pan)) * r
+    x = math.cos(math.radians(pan)) * r
+    
+    print(f"pan: {pan}")
+    return str(x) + "," + str(y) + "," + str(z) + "\n"
 
 if __name__ == "__main__":
     run()

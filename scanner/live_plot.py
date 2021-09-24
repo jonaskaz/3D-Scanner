@@ -21,7 +21,7 @@ def animate(i):
             ys.append(float(y))
             zs.append(float(z))
     ax.clear()
-    ax.scatter3D(xs, ys, zs, color="red")
+    ax.scatter3D(xs, ys, zs, color="blue")
 
 # TODO label axes
 ani = animation.FuncAnimation(fig, animate, interval=1000)

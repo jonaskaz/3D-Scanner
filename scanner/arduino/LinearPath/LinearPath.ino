@@ -3,11 +3,11 @@
 Servo panServo;
 Servo tiltServo;
 
-int startPan = 72;
+int startPan = 162;
 int panPos = startPan;
 int startTilt = 25;
 int endPan = 120;
-int endTilt = 90;
+int endTilt = 70;
 int panStep = 5;
 int tiltStep = 1;
 int tiltDelay = 20;
@@ -16,6 +16,7 @@ int sensorPin = A0;
 
 void setServoInit() {
   panServo.write(startPan);
+  delay(1000);
   tiltServo.write(startTilt);
   delay(3000);
 }
@@ -28,8 +29,10 @@ void setup() {
 }
 
 float getReading() {
-  float rawRead = analogRead(sensorPin);
-  return int(174 - 0.568*rawRead + (5.24*pow(10, -4)) * pow(rawRead, 2));
+  float rawRead1 = analogRead(sensorPin);
+  float rawRead2 = analogRead(sensorPin);
+  float rawRead3 = analogRead(sensorPin);
+  return (rawRead1 + rawRead2 + rawRead3)/3;
 }
 
 
@@ -56,13 +59,13 @@ void tiltDown() {
 }
 
 void loop() {
-  while (panPos + 2*panStep <= endPan) {
+  while (panPos - 2*panStep >= endPan) {
     tiltUp();
-    panPos+=panStep;
+    panPos-=panStep;
     panServo.write(panPos);
     delay(panDelay);
     tiltDown();
-    panPos+=panStep;
+    panPos-=panStep;
     panServo.write(panPos);
     delay(panDelay);
   }
