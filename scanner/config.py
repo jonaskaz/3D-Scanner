@@ -1,1 +1,1 @@
-DATA_FILEPATH = "data/data.txt"
+DATA_FILEPATH = "scanner/data/data.txt"

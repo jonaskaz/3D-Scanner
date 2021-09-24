@@ -1,6 +1,6 @@
 import serial
 
-from .config import DATA_FILEPATH
+from config import DATA_FILEPATH
 
 arduinoComPort = "/dev/ttyACM0"
 
@@ -11,9 +11,9 @@ serialPort = serial.Serial(arduinoComPort, baudRate, timeout=1)
 
 def run():
     while True:
-        lineOfData = serialPort.readline().decode()
-        if len(lineOfData) == 3:
-            data = lineOfData.split(",")
+        lineOfData = serialPort.readline().decode("utf8")
+        data = lineOfData.split(",")
+        if len(data) == 3:
             clean_data = [int(d) for d in data]
             print(clean_data)
             coords = calc_coords(*clean_data)
@@ -26,4 +26,7 @@ def calc_coords(distance, pan, tilt):
     Returns string in format X,Y,Z
     """
     # TODO
-    pass
+    return str(distance) + "," + str(pan) + "," + str(tilt) + "\n"
+
+if __name__ == "__main__":
+    run()
