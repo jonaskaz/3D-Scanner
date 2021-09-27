@@ -3,15 +3,15 @@
 Servo panServo;
 Servo tiltServo;
 
-int startPan = 162;
+int startPan = 80;
 int panPos = startPan;
-int startTilt = 25;
-int endPan = 120;
-int endTilt = 70;
-int panStep = 5;
+int startTilt = 35;
+int endPan = 30;
+int endTilt = 65;
+int panStep = 2;
 int tiltStep = 1;
 int tiltDelay = 20;
-int panDelay = 50;
+int panDelay = 30;
 int sensorPin = A0;
 
 void setServoInit() {
