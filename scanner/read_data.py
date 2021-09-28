@@ -26,12 +26,14 @@ def run():
 def convert_raw_reading(raw_reading):  #Using curve from calibration, convert raw reading to actual distance
     return 174-0.568*raw_reading + 5.24e-4 * raw_reading**2
 
-def calibrate_pan_tilt(pan, tilt):
+def calibrate_pan_tilt(pan, tilt):  #Calibrates angles sent from serial monitor to our x, y, and z axes
     pan = ZERO_PAN_DEGREES-pan
     tilt = ZERO_TILT_DEGREES-tilt
-    return pan, tilt
+    return pan, tilt  #Angles we can use in conversion from spherical to cartesian coordinates
 
-def calc_coords(raw_reading, pan, tilt):
+#Convert from spherical to cartesian coordinates (sensor gives distance from sensor to each point on letter,
+#not distances in x, y, and z directions)
+def calc_coords(raw_reading, pan, tilt):  
     """
     Returns string in format X,Y,Z
     """
