@@ -1,6 +1,8 @@
-import serial
+import serial  #Import relevant libraries
 import math
 
+#Import global variables, including file location for data from serial monitor and
+#angle value where pan and tilt are zero for conversion from spherical to cartesian coords.
 from config import DATA_FILEPATH, ZERO_TILT_DEGREES, ZERO_PAN_DEGREES
 
 arduinoComPort = "/dev/ttyACM0"
@@ -12,16 +14,16 @@ serialPort = serial.Serial(arduinoComPort, baudRate, timeout=1)
 
 def run():
     while True:
-        lineOfData = serialPort.readline().decode("utf8")
+        lineOfData = serialPort.readline().decode("utf8")  #Read data from serial port
         data = lineOfData.split(",")
-        if len(data) == 3:
+        if len(data) == 3:  #If 3 data points are detected, clean and store data
             clean_data = [int(d) for d in data]
             print(clean_data)
             coords = calc_coords(*clean_data)
-            with open(DATA_FILEPATH, "a") as f:
+            with open(DATA_FILEPATH, "a") as f:  #Send data to text file
                 f.write(coords)
 
-def convert_raw_reading(raw_reading):
+def convert_raw_reading(raw_reading):  #Using curve from calibration, convert raw reading to actual distance
     return 174-0.568*raw_reading + 5.24e-4 * raw_reading**2
 
 def calibrate_pan_tilt(pan, tilt):
