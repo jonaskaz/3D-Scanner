@@ -39,8 +39,6 @@ def calc_coords(raw_reading, pan, tilt):
     r = math.sin(math.radians(tilt)) * distance
     y = math.sin(math.radians(pan)) * r
     x = math.cos(math.radians(pan)) * r
-    
-    print(f"pan: {pan}")
     return str(x) + "," + str(y) + "," + str(z) + "\n"
 
 if __name__ == "__main__":
