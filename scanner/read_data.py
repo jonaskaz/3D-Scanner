@@ -22,11 +22,11 @@ def run():
                 f.write(coords)
 
 def convert_raw_reading(raw_reading):
-    return 174-0.568*raw_reading + 5.24e-4 * raw_reading**2
+    return 7605*(raw_reading**-0.868)
 
 def calibrate_pan_tilt(pan, tilt):
-    pan = ZERO_PAN_DEGREES-pan
-    tilt = ZERO_TILT_DEGREES-tilt
+    pan = math.radians(ZERO_PAN_DEGREES-pan)
+    tilt = math.radians(ZERO_TILT_DEGREES-tilt)
     return pan, tilt
 
 def calc_coords(raw_reading, pan, tilt):
@@ -35,10 +35,10 @@ def calc_coords(raw_reading, pan, tilt):
     """
     distance = convert_raw_reading(raw_reading)
     pan, tilt = calibrate_pan_tilt(pan, tilt)
-    z = math.cos(math.radians(tilt)) * distance
-    r = math.sin(math.radians(tilt)) * distance
-    y = math.sin(math.radians(pan)) * r
-    x = math.cos(math.radians(pan)) * r
+    z = math.cos(tilt) * distance
+    r = math.sin(tilt) * distance
+    y = math.sin(pan) * r
+    x = math.cos(pan) * r
     return str(x) + "," + str(y) + "," + str(z) + "\n"
 
 if __name__ == "__main__":
