@@ -10,9 +10,10 @@ int endPan = 30;
 int endTilt = 65;
 int panStep = 1;
 int tiltStep = 1;
-int tiltDelay = 20;
+int tiltDelay = 50;
 int panDelay = 20;
 int sensorPin = A0;
+float mutliplier = 0.96666;
 
 void setServoInit() {
   // Set servo initial positions
@@ -50,7 +51,7 @@ void sendReadings(int reading, int pan, int tilt) {
 void tiltUp() {
   // Tilt sensor up, sending sensor readings at each position
   for (int pos=startTilt; pos<= startTilt + endTilt; pos+=tiltStep) {
-      tiltServo.write(pos);
+      tiltServo.write(pos*mutliplier);
       delay(tiltDelay);
       sendReadings(getReading(), panPos, pos);
     }
@@ -59,7 +60,7 @@ void tiltUp() {
 void tiltDown() {
   // Tilt sensor down, sending sensor readings at each position
   for (int pos=startTilt + endTilt; pos>= startTilt; pos-=tiltStep) {
-      tiltServo.write(pos);
+      tiltServo.write(pos*mutliplier);
       delay(tiltDelay);
       sendReadings(getReading(), panPos, pos);
     }
@@ -70,11 +71,11 @@ void loop() {
     // Pan the sensor while tilting up and down
     tiltUp();
     panPos-=panStep;
-    panServo.write(panPos);
+    panServo.write(panPos*mutliplier);
     delay(panDelay);
     tiltDown();
     panPos-=panStep;
-    panServo.write(panPos);
+    panServo.write(panPos*mutliplier);
     delay(panDelay);
   }
   panPos = startPan;

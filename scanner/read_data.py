@@ -41,8 +41,8 @@ def calc_coords(raw_reading, pan, tilt):
     pan, tilt = calibrate_pan_tilt(pan, tilt)
     z = math.cos(tilt) * distance
     r = math.sin(tilt) * distance
-    y = math.sin(pan) * r
-    x = math.cos(pan) * r
+    x = math.sin(pan) * r
+    y = math.cos(pan) * r
     return str(x) + "," + str(y) + "," + str(z) + "\n"
 
 if __name__ == "__main__":

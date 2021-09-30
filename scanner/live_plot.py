@@ -19,6 +19,7 @@ def animate(i):
     for line in lines:
         if len(line) > 1:
             x, y, z = line.split(",")
+            
             if float(x) > MAX_X_DISTANCE:  #if statements to check if point is within acceptable distance range
                 continue
             elif float(z) < MIN_Z_DISTANCE:
